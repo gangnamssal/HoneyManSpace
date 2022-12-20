@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mx-auto my-3" style="width: 650px;">
+            <br>
+            <br>
+            <br>
+       
+
+            <form action="{% url 'movies:update' movie.pk%}" method="POST">
+                {% csrf_token %}
+                <ul class="list-group list-group-horizontal">
+                <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">제목</li>
+                <li class="list-group-item" style="width: 350px;">{{ form.title }}</li>
+                </ul>
+                
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">관객 수</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.audience }}</li>
+                </ul>
+
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">개봉일</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.release_date }}</li>
+                </ul>
+
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">장르</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.genre }}</li>
+                </ul>
+
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">평점</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.score }}</li>
+                </ul>
+
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">포스터 경로</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.poster_url }}</li>
+                </ul>
+                
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item list-group-item-warning text-danger text-opacity-50" style="width: 200px;">줄거리</li>
+                    <li class="list-group-item" style="width: 350px;">{{ form.description }}</li>
+                </ul>
+                
+
+                <div class="vstack gap-2 d-grid" style="width: 550px;">
+                    <input type="submit" value="수정하기" class="btn btn-info">
+                    <a href="{% url 'movies:detail' movie.pk%}" class="btn btn-warning">뒤로가기</a>
+                </div>
+
+
+            </form>
+        
+    </div>
+{% endblock content %}

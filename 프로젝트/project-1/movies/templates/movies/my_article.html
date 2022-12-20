@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <hr>
+    <br>
+    {% for movie in movies %}
+        {% if movie.user == user %}
+
+            <div class="d-flex position-relative border border-1 rounded-2">
+                <img src="{{ movie.poster_url }}" class="flex-shrink-0 me-3 rounded-2" style="height:350px;" alt="{{ movie.title }}">
+                <div>
+
+                    <div class="d-flex w-100 justify-content-between">
+                        <h2 class="mb-1  text-warning">{{ movie.title }}</h2>
+                        <small class="fs-5">{{ movie.release_date }}</small>
+                    </div>
+
+                    <p class="mb-1 d-inline-block" style="max-width: auto;"><span class="text-success fs-5">줄거리</span> : {{ movie.description }}</p>
+                    <small class="fs-5"><span class="text-success fs-5">장르</span> : {{ movie.genre }}</small> <br>
+                    <small class="fs-5"><span class="text-success fs-5">평점</span> : {{ movie.score }}</small> <br>
+                    <small class="fs-5"><span class="text-success fs-5">관객 수</span> : {{ movie.audience }}</small>
+                    
+                    <a href="{% url 'movies:detail' movie.pk%}" class="stretched-link"></a>
+                </div>
+            </div> 
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

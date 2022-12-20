@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mx-auto" style="width: 900px; height: auto;">
+        <br>
+        <br>
+        <br>
+        <h1><a href="{% url 'accounts:profile' movie.user%}">{{ movie.user.username }}님의 글</a></h1>
+        <div class="d-flex justify-content-center" style="height: auto;">
+            <img src="{{movie.poster_url}}" alt="{{movie.title}}">
+        </div>
+
+
+        <div>
+          <form action="{% url 'movies:likes' movie.pk%}" method="POST">
+            {% csrf_token %}
+            {% if request.user in movie.like_users.all %}
+              <input type="submit" value="좋아요 취소">
+            {% else %}
+              <input type="submit" value="좋아요">
+            {% endif %}
+          </form>
+        </div>
+
+
+        <br>
+
+        <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="audience-tab" data-bs-toggle="tab" data-bs-target="#audience-tab-pane" type="button" role="tab" aria-controls="audience-tab-pane" aria-selected="true">관객수</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="release_date-tab" data-bs-toggle="tab" data-bs-target="#release_date-tab-pane" type="button" role="tab" aria-controls="release_date-tab-pane" aria-selected="false">개봉일</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="genre-tab" data-bs-toggle="tab" data-bs-target="#genre-tab-pane" type="button" role="tab" aria-controls="genre-tab-pane" aria-selected="false">장르</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="score-tab" data-bs-toggle="tab" data-bs-target="#score-tab-pane" type="button" role="tab" aria-controls="score-tab-pane" aria-selected="false">평점</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#description-tab-pane" type="button" role="tab" aria-controls="description-tab-pane" aria-selected="false">줄거리</button>
+            </li>
+        </ul>
+
+          <div class="tab-content d-flex justify-content-center fs-5" id="myTabContent">
+            <div class="tab-pane fade show active" id="audience-tab-pane" role="tabpanel" aria-labelledby="audience-tab" tabindex="0">{{ movie.audience}}만</div>
+            <div class="tab-pane fade" id="release_date-tab-pane" role="tabpanel" aria-labelledby="release_date-tab" tabindex="0">{{ movie.release_date}}</div>
+            <div class="tab-pane fade " id="genre-tab-pane" role="tabpanel" aria-labelledby="genre-tab" tabindex="0">{{ movie.genre}}</div>
+            <div class="tab-pane fade " id="score-tab-pane" role="tabpanel" aria-labelledby="score-tab" tabindex="0">{{ movie.score}}</div>
+            <div class="tab-pane fade" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab" tabindex="0">{{ movie.description}}</div>
+          </div>
+          
+          <hr>
+          
+          
+          <div class="text-success text-opacity-75 fs-5">댓글 <span class="badge bg-warning rounded-pill">{{comments.count}}</span></div>
+            {% for comment in comments %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item shadow-sm mb-2 rounded-5 d-flex justify-content-between"><span class="fs-5">{{comment.user}} : {{ comment.content }}</span>
+                      {% if user == comment.user %}
+                        <a type="button" class="btn btn-outline-danger opacity-75 rounded-5" href="{% url 'movies:comment_delete' movie.pk comment.pk%} ">삭제</a>
+                      {% endif %}
+                    </li>
+                </ul>
+            {% endfor %}
+                
+
+          <form action="{% url 'movies:comment_create' movie.pk%}" method="POST" class="mt-1">
+            {% csrf_token %}
+            {{comment.content}}
+            <input type="submit" value="댓글 작성" class="btn btn-success mb-2" style="width: 900px;">
+          </form>
+
+          <br>
+
+
+          {% if request.user == movie.user %}
+            <div class="vstack gap-2 d-grid" style="width: 550px;">
+              <a href="{% url 'movies:update' movie.pk%}" class="btn btn-info">수정하기</a>
+
+              <form action="{% url 'movies:delete' movie.pk%}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="삭제하기" class="btn btn-danger " style="width: 900px;">
+              </form>
+
+              <a href="{% url 'movies:index' %}" class="btn btn-warning">메인으로</a>
+            </div>
+          {% else %}
+      
+              <a href="{% url 'movies:index' %}" class="btn btn-warning" style="width:900px;">메인으로</a>
+            
+          {% endif %}
+          
+
+    </div>
+
+{% endblock content %}
