@@ -12,6 +12,8 @@ function solution(i, j, k) {
     // for (const str of strStart) {
     //   str === String(k) ? result++ : null;
     // }
+
+    // forEach를 사용한 방법
     [...strStart].forEach((str) => {
       str === String(k) ? result++ : null;
     });
