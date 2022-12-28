@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- React CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- babel CDN -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const MinuteToHour = () => {
+        const [times, toTimes] = React.useState(0);
+        const onChange = (event) => {
+          toTimes(event.target.value);
+        };
+
+        const reset = () => {
+          toTimes(0);
+        };
+
+        const [isConvert, toConvert] = React.useState(false);
+        const convert = () => {
+          reset();
+          toConvert((current) => !current);
+        };
+
+        return (
+          <div>
+            <div>
+              <label for="minute">Minute : </label>
+              <input
+                onChange={onChange}
+                type="number"
+                id="minute"
+                value={isConvert === false ? times : times * 60}
+                disabled={isConvert === true}
+              />
+            </div>
+
+            <div>
+              <label for="hour">Hour : </label>
+              <input
+                onChange={onChange}
+                type="number"
+                id="hour"
+                value={isConvert === true ? times : times / 60}
+                disabled={isConvert === false}
+              />
+            </div>
+            <button onClick={reset}>Reset</button>
+            <button onClick={convert}>Convert</button>
+          </div>
+        );
+      };
+
+      const GramToKgam = () => {
+        const [weight, toWeight] = React.useState(0);
+        const onChange = (event) => {
+          toWeight(event.target.value);
+        };
+        const onReset = () => {
+          toWeight(0);
+        };
+
+        const [convert, toConvert] = React.useState(false);
+        const onConvert = () => {
+          onReset();
+          toConvert((current) => !current);
+        };
+        return (
+          <div>
+            <div>
+              <label for="gram">Gram : </label>
+              <input
+                type="number"
+                id="gram"
+                onChange={onChange}
+                value={!convert ? weight : weight * 1000}
+                disabled={convert}
+              />
+            </div>
+
+            <div>
+              <label for="kilogram">KiloGram : </label>
+              <input
+                type="number"
+                id="kilogram"
+                onChange={onChange}
+                value={convert ? weight : weight / 1000}
+                disabled={!convert}
+              />
+            </div>
+
+            <button onClick={onReset}>Reset</button>
+            <button onClick={onConvert}>Convert</button>
+          </div>
+        );
+      };
+
+      const App = () => {
+        const [select, toSelect] = React.useState("0");
+        const onSelect = (event) => {
+          toSelect(event.target.value);
+        };
+
+        return (
+          <div>
+            <h1>단위 변환</h1>
+            <select onChange={onSelect}>
+              <option value="0">Select Menu</option>
+              <option value="1">MinuteToHour</option>
+              <option value="2">GramToKgam</option>
+            </select>
+            {select === "1" ? <MinuteToHour /> : null}
+            {select === "2" ? <GramToKgam /> : null}
+          </div>
+        );
+      };
+
+      const root = document.getElementById("root");
+      ReactDOM.render(<App />, root);
+    </script>
+  </body>
+</html>
