@@ -1,4 +1,5 @@
 import { createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 const ADD = "ADD";
 const DELETE = "DELETE";
@@ -31,7 +32,7 @@ const reducer = (state = [], action) => {
   }
 };
 
-const store = createStore(reducer);
+const store = configureStore({ reducer });
 
 export const actionCreator = {
   addToDo,
