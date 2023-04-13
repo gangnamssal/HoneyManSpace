@@ -1,46 +1,38 @@
-/**
- 선분 3개가 평행
- 세 선분의 시작과 끝 좌표가 들어있는 2차원 배열 lines
- 두 개 이상의 선분이 겹치는 부분의 길이를 return
- */
-
-/**
- * @param {number[]} lines
- * @returns {number[]} lines
- */
+// 세 선분의 시작과 끝 좌표가 2차원 배열로 주어진다.
+// 두 개 이상의 선분이 겹치는 부분의 길이를 return
 function solution(lines) {
-  const result = {};
-  // lines의 배열의 첫 번째 수가 낮은 순서대로 정렬
-  lines.sort((a, b) => a[0] - b[0]);
+  const resultObj = {};
+  let result = 0;
+  let start;
+  let end;
 
-  // 정렬된 배열을 순회하면서 숫자가 몇번 등장하는지 객체에 저장
-  lines.forEach((item) => {
-    for (let i = item[0]; i <= item[1]; i++) {
-      result[i] ? result[i]++ : (result[i] = 1);
+  lines.forEach((line) => {
+    start = line[0];
+    end = line[1];
+
+    while (start !== end) {
+      if (!resultObj[[start, start + 1]]) {
+        resultObj[[start, start + 1]] = 1;
+      } else {
+        resultObj[[start, start + 1]]++;
+      }
+      start += 1;
     }
   });
-  console.log(lines);
-  let answer = 0;
-  let cnt = 0;
-  // 객체를 순회하면서 개수가 2개 이상인 수를 찾으며 선분의 길이를 잰다.
-  for (const [keys, values] of Object.entries(result)) {
-    if (values >= 2) {
-      cnt++;
-    } else {
-      if (cnt !== 0) {
-        answer += cnt - 1;
-        cnt = 0;
-      }
+
+  for (let i in resultObj) {
+    if (resultObj[i] > 1) {
+      result++;
     }
   }
 
-  return answer;
+  return result;
 }
 
 console.log(
   solution([
-    [0, 5],
-    [1, 4],
-    [2, 3],
+    [0, 1],
+    [2, 5],
+    [3, 9],
   ])
 );
