@@ -18,7 +18,7 @@ function solution(board) {
 
           if (
             nr >= 0 &&
-            nc >= 0 &&
+            nc >= 1 &&
             nr < items.length &&
             nc < items.length &&
             board[nr][nc] === 0
